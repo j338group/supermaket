@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.benevolent.sm.dao.BillsMapper">
+    <select id="findByCondition" resultType="Bills">
+        SELECT b.`id`,b.`billCode`,b.`productName`,b.`totalPrice`,b.`isPayment`,b.`creationDate`,b.`providerId`,p.proName providerName
+        FROM smbms_bill b
+        JOIN smbms_provider p
+        ON b.providerId=p.id
+        <where>
+            <if test="pName!=null">
+                AND b.productName like "%"#{pName}"%"
+            </if>
+            <if test="pId!=null and pId>0">
+                AND b.providerId=#{pId}
+            </if>
+            <if test="pay!=null and pay>0">
+                AND b.isPayment=#{pay}
+            </if>
+        </where>
+    </select>
+    <select id="findById" resultType="Bills">
+        SELECT b.`id`,b.`billCode`,b.`productName`,b.`totalPrice`,b.`isPayment`,b.`creationDate`,b.`providerId`,p.proName providerName,b.`productUnit`,b.`productCount`
+        FROM smbms_bill b
+        JOIN smbms_provider p
+        ON b.providerId=p.id
+        where b.id=#{id}
+    </select>
+    <delete id="delById" parameterType="Long">
+        DELETE FROM smbms_bill WHERE id=#{id}
+    </delete>
+    <update id="updateBill" parameterType="Bills">
+        update smbms_bill set billCode=#{billCode},productName=#{productName},productUnit=#{productUnit},productCount=#{productCount},totalPrice=#{totalPrice},isPayment=#{isPayment},providerId=#{providerId} where id=#{id}
+    </update>
+    <insert id="addBill" parameterType="Bills">
+        insert into smbms_bill (billCode,productName,productUnit,productCount,totalPrice,isPayment,providerId,creationDate) values (#{billCode},#{productName},#{productUnit},#{productCount},#{totalPrice},#{isPayment},#{providerId},#{creationDate})
+    </insert>
+</mapper>
