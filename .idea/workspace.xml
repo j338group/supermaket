@@ -6,7 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e535b958-b7e8-4d91-9ac9-ed9dc05606c0" name="Default Changelist" comment="">
+    <list default="true" id="e535b958-b7e8-4d91-9ac9-ed9dc05606c0" name="supermarket" comment="dongpeng">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -83,7 +83,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/applicationContext.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
+            <state relative-caret-position="28">
               <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
             </state>
           </provider>
@@ -233,9 +233,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="supermarket" type="b2602c69:ProjectViewProjectNode" />
+              <item name="supermarket" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -428,7 +438,7 @@
       <workItem from="1570380291208" duration="798000" />
       <workItem from="1570498139339" duration="159000" />
       <workItem from="1570501582956" duration="523000" />
-      <workItem from="1570512634176" duration="6342000" />
+      <workItem from="1570512634176" duration="6840000" />
     </task>
     <task id="LOCAL-00001" summary="dongpeng">
       <created>1570517290986</created>
@@ -458,16 +468,23 @@
       <option name="project" value="LOCAL" />
       <updated>1570519322674</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="dongpeng">
+      <created>1570519513972</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1570519513972</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="251724000" />
+    <option name="totallyTimeSpent" value="252222000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="157" y="0" width="1272" height="832" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2092257" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2092257" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -488,7 +505,7 @@
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="13" visible="true" />
+      <window_info anchor="bottom" id="Version Control" order="13" visible="true" />
       <window_info anchor="bottom" id="Application Servers" order="14" weight="0.32880846" />
       <window_info anchor="bottom" id="Database Console" order="15" weight="0.32880846" />
       <window_info anchor="bottom" id="Messages" order="16" weight="0.32107496" />
@@ -508,9 +525,9 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="dongpeng" />
     <MESSAGE value="dongpeng111" />
-    <option name="LAST_COMMIT_MESSAGE" value="dongpeng111" />
+    <MESSAGE value="dongpeng" />
+    <option name="LAST_COMMIT_MESSAGE" value="dongpeng" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -855,7 +872,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/applicationContext.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
+        <state relative-caret-position="28">
           <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
         </state>
       </provider>
