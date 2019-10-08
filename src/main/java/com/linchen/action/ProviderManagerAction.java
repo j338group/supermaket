@@ -19,6 +19,7 @@ public class ProviderManagerAction {
     private ProviderBoI providerBoI;
 
 
+    /*供应商列表*/
     @RequestMapping(value = "/provider.html", method = RequestMethod.GET)
     public String providerList(Model model, @RequestParam(value = "queryProCode",required = false) String queryCode,@RequestParam(value = "queryProName",required = false) String queryName) {
         List<Provider> providerList = providerBoI.queryProviderList(queryCode,queryName);

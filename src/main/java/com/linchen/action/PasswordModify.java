@@ -22,11 +22,13 @@ public class PasswordModify {
     @Autowired
     private UserBoI userBoI;
 
+    /*跳转修改密码页面*/
     @RequestMapping(value = "/jsp/pwdmodify.html")
     public String updatePassword() {
         return "pwdmodify";
     }
 
+    /*验证原始密码*/
     @RequestMapping("/jsp/password.html")
     @ResponseBody
     public String passwordView(HttpServletRequest request, @RequestParam("oldpassword") String oldPassword) {
@@ -54,6 +56,7 @@ public class PasswordModify {
         return confirm;
     }
 
+    /*执行修改*/
     @RequestMapping(value = "/jsp/updatepassword.html", method = RequestMethod.POST)
     public String doUpdatePassword(Model model, HttpServletRequest request, @RequestParam("rnewpassword") String newPassword) {
         HttpSession session = request.getSession();

@@ -27,7 +27,7 @@ public class UserManagerAction {
     @Autowired
     private RoleBoI roleBoI;
 
-    /*用户表*/
+    /*用户列表*/
     @RequestMapping(value = "/userlist.html", method = RequestMethod.GET)
     public String userList(Model model, @RequestParam(value = "pageIndex", required = false) Integer pageIndex,
                            @RequestParam(value = "queryname", required = false) String queryUserName,

@@ -17,8 +17,8 @@ public class UserLoginAction {
     @Autowired
     private UserBoI userBoI;
 
+    /*用户登录*/
     @RequestMapping(value = "/login.html",method = RequestMethod.POST)
-//    @ResponseBody
     public String login(@RequestParam("userCode") String userCode,@RequestParam("userPassword") String password,
                         HttpSession session, HttpServletRequest request) {
         User user = userBoI.login(userCode, password);
@@ -31,6 +31,7 @@ public class UserLoginAction {
         }
     }
 
+    /*用户退出*/
     @RequestMapping("/jsp/logout.do")
     public String logout(HttpSession session){
         session.invalidate();

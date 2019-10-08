@@ -24,6 +24,7 @@ public class BillManagerAction {
     @Autowired
     private ProviderBoI providerBoI;
 
+    /*获得订单列表*/
     @RequestMapping(value = "/bill.html", method = RequestMethod.GET)
     public String queryBillList(Model model, @RequestParam(value = "queryProductName", required = false) String productName,
                                 @RequestParam(value = "queryProviderId", required = false) Integer proId,

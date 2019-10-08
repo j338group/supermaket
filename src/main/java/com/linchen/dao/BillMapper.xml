@@ -370,6 +370,7 @@
     set
     billCode = #{billCode,jdbcType=VARCHAR},
       productName = #{productName,jdbcType=VARCHAR},
+      productDesc = #{productDesc,jdbcType=VARCHAR},
       productUnit = #{productUnit,jdbcType=VARCHAR},
       productCount = #{productCount,jdbcType=DECIMAL},
       totalPrice = #{totalPrice,jdbcType=DECIMAL},
