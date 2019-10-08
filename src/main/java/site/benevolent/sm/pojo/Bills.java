@@ -1,7 +1,7 @@
 package site.benevolent.sm.pojo;
 
 import java.util.Date;
-
+//a
 public class Bills {
     private Long id;
     private String billCode;
