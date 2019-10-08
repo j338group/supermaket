@@ -359,7 +359,7 @@
 
     <!--查询单个订单信息-->
     <select id="findBillById" parameterType="Long" resultType="com.linchen.vo.BillVo">
-        SELECT b.id,b.billCode,b.productName,b.productUnit,b.productCount,b.totalPrice,p.proName,b.isPayment,b.providerId
+        SELECT b.id,b.billCode,b.productName,b.productDesc,b.productUnit,b.productCount,b.totalPrice,p.proName,b.isPayment,b.providerId
         FROM smbms_bill b JOIN smbms_provider p
         ON b.providerId=p.id WHERE b.id=#{id}
     </select>
