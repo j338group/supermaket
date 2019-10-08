@@ -4,7 +4,6 @@ import cn.smbms.pojo.User;
 import cn.smbms.vo.UserVo;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
     User login(String userCode, String password);

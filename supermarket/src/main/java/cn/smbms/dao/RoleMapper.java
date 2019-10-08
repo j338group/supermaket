@@ -2,8 +2,9 @@ package cn.smbms.dao;
 
 import cn.smbms.pojo.Role;
 import cn.smbms.pojo.RoleExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RoleMapper {
     long countByExample(RoleExample example);

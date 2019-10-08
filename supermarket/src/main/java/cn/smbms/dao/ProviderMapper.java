@@ -2,10 +2,10 @@ package cn.smbms.dao;
 
 import cn.smbms.pojo.Provider;
 import cn.smbms.pojo.ProviderExample;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface ProviderMapper {
     long countByExample(ProviderExample example);
