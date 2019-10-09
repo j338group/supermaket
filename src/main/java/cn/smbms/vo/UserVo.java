@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * description:
  * Created by Ray on 2019-09-24
+ * 搜索
  */
 public class UserVo {
     private Long id;
