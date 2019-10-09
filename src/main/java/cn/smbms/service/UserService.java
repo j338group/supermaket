@@ -24,4 +24,8 @@ public interface UserService {
     boolean addUser(User user, Long id);
 
     boolean findUserByUserCode(String userCode);
+
+    void updateUser(User user, Long uid);
+
+    int updateUserPassword(String newpassword, User user);
 }

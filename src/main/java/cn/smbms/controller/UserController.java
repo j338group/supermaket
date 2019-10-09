@@ -105,7 +105,7 @@ public class UserController {
         User loginuser = (User) session.getAttribute("userSession");
         Boolean b=userService.addUser(user,loginuser.getId());
 //TODO 跳转页面
-        return "userlist";
+        return "useradd";
     }
     @RequestMapping("/ucexist/{userCode}")
     @ResponseBody
@@ -119,5 +119,66 @@ public class UserController {
             map.put("userCode", "");
         }
         return map;
+    }
+
+
+    @RequestMapping("/pwdmodify.html")
+    public String updateUser(){
+        return "pwdmodify";
+    }
+
+    @RequestMapping("/user.do")
+    public String updateUser(User user,Long uid){
+        System.out.println(user+"-----------------------");
+        System.out.println(uid);
+        userService.updateUser(user,uid);
+        return "usermodify";
+    }
+    @RequestMapping("/pwd/")
+    @ResponseBody
+    public String oldpwd() throws JsonProcessingException {
+        String s="error";
+        Map<String,String> result=new HashMap<>();
+        result.put("result",s);
+
+        String s1 = new ObjectMapper().writeValueAsString(result);
+
+        return s1;
+    }
+    //验证旧密码对不对pwdmodify.js
+    @RequestMapping("/pwd/{oldpassword}")
+    @ResponseBody
+    public String oldpwd(@PathVariable(value = "oldpassword",required = false)String oldpassword,HttpSession session){
+        User loginUser=(User)session.getAttribute("userSession");
+        String s=null;
+        System.out.println(loginUser.getUserPassword());
+        System.out.println(oldpassword.getClass()+"-----------------------------------------------");
+        System.out.println(oldpassword==loginUser.getUserPassword());
+        System.out.println(loginUser.getUserPassword().getClass());
+        System.out.println(loginUser.getUserPassword()+"..............................................");
+        if (loginUser.getUserPassword().equals(oldpassword)){
+            s="true";
+        }else if (session==null){
+            s="sessionerror";
+        }else if (!loginUser.getUserPassword().equals(oldpassword)){
+            s="false";
+        }
+        Map<String,String> result=new HashMap<>();
+        result.put("result",s);
+        String s1=null;
+        try {
+            s1=new ObjectMapper().writeValueAsString(result);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return s1;
+    }
+    //pwdmodify.jsp修改密码
+    @RequestMapping("updatepwd")
+    public String updatepwd(String newpassword,HttpSession session){
+        User loginUser=(User)session.getAttribute("userSession");
+        int i=userService.updateUserPassword(newpassword,loginUser);
+
+        return "forward:/login.jsp";
     }
 }

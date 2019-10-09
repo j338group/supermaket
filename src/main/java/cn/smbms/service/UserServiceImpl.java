@@ -92,7 +92,18 @@ public class UserServiceImpl implements UserService {
             return true;
         return false;
     }
+    @Override
+    public void updateUser(User user, Long uid) {
+        user.setId(uid);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 
+    @Override
+    public int updateUserPassword(String newpassword,User user) {
+        user.setUserPassword(newpassword);
+        int i = userMapper.updateByPrimaryKey(user);
+        return i;
+    }
     @Override
     public int queryUserCount() {
 
