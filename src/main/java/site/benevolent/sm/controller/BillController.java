@@ -98,7 +98,5 @@ public class BillController {
         billBo.addBill(bill);
         System.out.println(providerId+"success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         return "redirect:/jsp/bill/billlist.html";
-    }
-
-
+    }   //abc
 }

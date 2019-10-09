@@ -35,8 +35,8 @@ public class UsersController {
                                 @RequestParam(value = "queryname", required = false) String queryname,
                                 @RequestParam(value = "queryUserRole", required = false) Integer roleId) {
         int totalCount = usersBo.usersCount();
-        int pageSize = 5;
-        int totalPageCount = totalCount % 5 == 0 ? totalCount / 5 : totalCount / 5 + 1;
+        int pageSize = 8;
+        int totalPageCount = totalCount % pageSize == 0 ? totalCount / pageSize : totalCount / pageSize + 1;
         int currentPageNo = 1;
         if (pageIndex != null) {
             currentPageNo = pageIndex;
