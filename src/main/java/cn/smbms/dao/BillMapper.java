@@ -32,4 +32,6 @@ public interface BillMapper {
     int updateByPrimaryKey(Bill record);
 
     List<BillVo> queryBillList(Map<String, Object> param);
+
+    BillVo queryBillListBy(String id);
 }

@@ -4,7 +4,6 @@ import cn.smbms.dao.BillMapper;
 import cn.smbms.dao.ProviderMapper;
 import cn.smbms.pojo.*;
 import cn.smbms.vo.BillVo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +31,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public BillVo findBillById(String billId) {
-        Bill bill = billMapper.selectByPrimaryKey(Long.parseLong(billId));
-        Provider provider = providerMapper.selectByPrimaryKey(bill.getProviderId());
-        BillVo billVo = new BillVo();
-        BeanUtils.copyProperties(bill, billVo);
-        billVo.setProviderName(provider.getProName());
+        BillVo billVo = billMapper.queryBillListBy(billId);
         return billVo;
     }
 

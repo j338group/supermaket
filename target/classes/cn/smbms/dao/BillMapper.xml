@@ -338,19 +338,21 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="queryBillList" resultType="cn.smbms.vo.BillVo">
-    select
+    SELECT
     b.id,
     b.billCode,
     b.productName,
+    b.productUnit,
     p.proName providerName,
+    b.productCount,
     b.totalPrice,
     b.isPayment,
     b.creationDate
-    from
+    FROM
     smbms_bill b
-    join
+    JOIN
     smbms_provider p
-    on
+    ON
     b.providerId=p.id
     <where>
       <if test="queryProductName!=null">
@@ -363,5 +365,23 @@
         and b.isPayment=#{queryIsPayment}
       </if>
     </where>
+  </select>
+  <select id="queryBillListBy" resultType="cn.smbms.vo.BillVo">
+    SELECT
+    b.id,
+    b.billCode,
+    b.productName,
+    b.productUnit,
+    p.proName providerName,
+    b.productCount,
+    b.totalPrice,
+    b.isPayment
+    FROM
+    smbms_bill b
+    JOIN
+    smbms_provider p
+    ON
+    b.providerId=p.id
+   where b.id=#{id}
   </select>
 </mapper>

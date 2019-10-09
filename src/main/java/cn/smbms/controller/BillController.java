@@ -3,11 +3,11 @@ package cn.smbms.controller;
 
 import cn.smbms.pojo.Bill;
 import cn.smbms.pojo.Provider;
-import cn.smbms.pojo.User;
+
 import cn.smbms.service.BillService;
 import cn.smbms.service.ProviderService;
 import cn.smbms.vo.BillVo;
-import cn.smbms.vo.UserVo;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +70,10 @@ public class BillController {
         model.addAttribute("bill",billVo );
         return "billmodify";
     }
-    @RequestMapping("/providelist")
+    @RequestMapping("/providerlist")
     @ResponseBody
-    public List queryRoleList(){
-        List<Provider> providers = providerService.queryProvideList1();
+    public List queryProviderList(){
+        List<Provider> providers = providerService.queryProviderList1();
         return providers;
     }
     @RequestMapping("/add.html")
@@ -86,6 +86,7 @@ public class BillController {
        Bill loginuser = (Bill) session.getAttribute("billSession");
         Boolean b=billService.addBill(bill,loginuser.getId());
 //TODO 跳转页面
+
         return "billlist";
     }
     @RequestMapping("/ucexist/{billCode}")

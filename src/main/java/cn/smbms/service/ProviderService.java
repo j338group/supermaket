@@ -6,7 +6,7 @@ import cn.smbms.pojo.Provider;
 import java.util.List;
 
 public interface ProviderService {
-    List<Provider> queryProvideList1();
+    List<Provider> queryProviderList1();
 
     List<Provider> queryProvideList(String queryProCode, String queryProName);
 
@@ -16,6 +16,6 @@ public interface ProviderService {
 
     boolean addPro(Provider provider, Long id);
 
-    boolean findUserByProCode(String ProCode);
+    boolean findProByProCode(String ProCode);
 
 }

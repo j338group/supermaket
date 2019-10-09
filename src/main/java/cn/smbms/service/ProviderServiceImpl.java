@@ -18,7 +18,7 @@ public class ProviderServiceImpl implements ProviderService {
     private ProviderMapper providerMapper;
 
     @Override
-    public List<Provider> queryProvideList1() {
+    public List<Provider> queryProviderList1() {
         List<Provider> providers=providerMapper.queryProvideList1();
         return providers;
     }
@@ -61,7 +61,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public boolean findUserByProCode(String ProCode) {
+    public boolean findProByProCode(String ProCode) {
         ProviderExample example = new ProviderExample();
         ProviderExample.Criteria criteria = example.createCriteria();
         criteria.andProCodeEqualTo(ProCode);

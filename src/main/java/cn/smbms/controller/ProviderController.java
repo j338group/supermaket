@@ -81,7 +81,7 @@ public class ProviderController {
     @RequestMapping("/ucexist/{proCode}")
     @ResponseBody
     public Map<String, String> providerCodeExist(@PathVariable("proCode") String proCode) {
-        Boolean have = providerService.findUserByProCode(proCode);
+        Boolean have = providerService.findProByProCode(proCode);
 
         Map<String, String> map = new HashMap<>();
         if (have) {

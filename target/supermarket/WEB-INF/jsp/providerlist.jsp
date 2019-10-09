@@ -17,7 +17,7 @@
 				<input name="queryProName" type="text" value="${queryProName }">
 				
 				<input value="查 询" type="submit" id="searchbutton">
-				<a href="${pageContext.request.contextPath }/jsp/provideradd.jsp">添加供应商</a>
+				<a href="${pageContext.request.contextPath }/jsp/provider/add.html">添加供应商</a>
 			</form>
         </div>
         <!--供应商操作表格-->
