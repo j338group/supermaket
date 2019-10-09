@@ -86,7 +86,6 @@ public class BillController {
        Bill loginuser = (Bill) session.getAttribute("billSession");
         Boolean b=billService.addBill(bill,loginuser.getId());
 //TODO 跳转页面
-
         return "billlist";
     }
     @RequestMapping("/ucexist/{billCode}")
