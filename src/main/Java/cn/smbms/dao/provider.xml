@@ -1,0 +1,34 @@
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.smbms.dao">
+    <select id="find" resultType="cn.smbms.pojo.Provider">
+        select * from smbms_provider where id=#{id}
+    </select>
+    <select id="findlist" resultType="cn.smbms.pojo.Provider">
+        select * from smbms_provider
+    </select>
+    <update id="findset" parameterType="cn.smbms.pojo.Provider">
+        update smbms_provider set  proCode=#{proCode}, proName=#{proName},
+        proDesc=#{proDesc}, proContact=#{proContact},proPhone=#{proPhone},
+         proAddress=#{ proAddress}, ProFax=#{ProFax},createdBy=#{createdBy},
+         creationDate=#{creationDate}, modifyDate=#{ modifyDate}, modifyBy=#{ modifyBy} where id=#{id}
+    </update>
+    <delete id="finddelete" parameterType="int">
+        delete smbms_provider where id=#{id}
+    </delete>
+    <insert id="save" parameterType="cn.smbms.pojo.Provider">
+        insert into smbms_provider ( proCode, proName,
+        proDesc, proContact,proPhone,
+         proAddress, ProFax,createdBy,
+         creationDate, modifyDate,modifyBy)
+         values (#{proCode},#{proName}#{proDesc},#{proContact},#{proPhone},#{proAddress},#{ProFax},
+         #{createdBy},#{creationDate},#{modifyDate},#{modifyBy})
+    </insert>
+</mapper>
+
+
+
+
