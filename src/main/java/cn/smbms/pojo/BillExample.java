@@ -876,52 +876,52 @@ public class BillExample {
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdEqualTo(Long value) {
+        public Criteria andProviderIdEqualTo(Integer value) {
             addCriterion("providerId =", value, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdNotEqualTo(Long value) {
+        public Criteria andProviderIdNotEqualTo(Integer value) {
             addCriterion("providerId <>", value, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdGreaterThan(Long value) {
+        public Criteria andProviderIdGreaterThan(Integer value) {
             addCriterion("providerId >", value, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andProviderIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("providerId >=", value, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdLessThan(Long value) {
+        public Criteria andProviderIdLessThan(Integer value) {
             addCriterion("providerId <", value, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdLessThanOrEqualTo(Long value) {
+        public Criteria andProviderIdLessThanOrEqualTo(Integer value) {
             addCriterion("providerId <=", value, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdIn(List<Long> values) {
+        public Criteria andProviderIdIn(List<Integer> values) {
             addCriterion("providerId in", values, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdNotIn(List<Long> values) {
+        public Criteria andProviderIdNotIn(List<Integer> values) {
             addCriterion("providerId not in", values, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdBetween(Long value1, Long value2) {
+        public Criteria andProviderIdBetween(Integer value1, Integer value2) {
             addCriterion("providerId between", value1, value2, "providerId");
             return (Criteria) this;
         }
 
-        public Criteria andProviderIdNotBetween(Long value1, Long value2) {
+        public Criteria andProviderIdNotBetween(Integer value1, Integer value2) {
             addCriterion("providerId not between", value1, value2, "providerId");
             return (Criteria) this;
         }

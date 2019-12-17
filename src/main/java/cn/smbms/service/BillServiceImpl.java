@@ -2,13 +2,14 @@ package cn.smbms.service;
 
 import cn.smbms.dao.BillMapper;
 import cn.smbms.dao.ProviderMapper;
-import cn.smbms.pojo.*;
+import cn.smbms.pojo.Bill;
+import cn.smbms.pojo.BillExample;
+import cn.smbms.pojo.Provider;
 import cn.smbms.vo.BillVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,49 +20,50 @@ public class BillServiceImpl implements BillService {
     private BillMapper billMapper;
     @Autowired
     private ProviderMapper providerMapper;
-
     @Override
-    public List<BillVo> queryBillList(String queryProductName, Integer queryProviderId, Integer queryIsPayment) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("queryProductName", queryProductName);
-        param.put("queryProviderId", queryProviderId);
-        param.put("queryIsPayment", queryIsPayment);
-        return billMapper.queryBillList(param);
+    public List<BillVo> queryBillList(String productName, Integer providerId,Integer isPayment) {
+        Map<String,Object> param=new HashMap<>();
+        param.put("productName",productName);
+        param.put("providerId",providerId);
+        param.put("isPayment",isPayment);
+
+        return billMapper.selectBillList(param);
     }
 
     @Override
-    public BillVo findBillById(String billId) {
-        BillVo billVo = billMapper.queryBillListBy(billId);
+    public String deleteById(String id) {
+         int i=billMapper.deleteByPrimaryKey(Long.parseLong(id));
+            if (i>0){
+                System.out.println("true.........................................................");
+                return "true";
+
+            }
+        System.out.println("false..................................................................");
+                return "false";
+
+    }
+
+    @Override
+    public BillVo queryById(String id) {
+        Bill bill = billMapper.selectByPrimaryKey(Long.parseLong(id));
+        Provider provider=providerMapper.selectByPrimaryKey(Long.parseLong(id));
+        BillVo billVo=new BillVo();
+        BeanUtils.copyProperties(bill,billVo);
+        billVo.setProviderName(provider.getProName());
         return billVo;
     }
 
     @Override
-    public boolean delBillById(String billId) {
-        int i = billMapper.deleteByPrimaryKey(Long.parseLong(billId));
-        if (i > 0) {
-            return true;
-        }
-        return false;
+    public void updateBill(Bill bill) {
+        BillExample billExample=new BillExample();
+        BillExample.Criteria criteria = billExample.createCriteria();
+        criteria.andBillCodeEqualTo(bill.getBillCode());
+        billMapper.updateByExampleSelective(bill,billExample);
     }
 
     @Override
-    public boolean addBill(Bill bill, Long id) {
-        bill.setCreatedBy(id);
-        bill.setCreationDate(new Date());
+    public int addBill(Bill bill) {
         int i = billMapper.insert(bill);
-        if (i > 0)
-            return true;
-        return false;
-    }
-
-    @Override
-    public boolean findBillByBillCode(String billCode) {
-        BillExample example = new BillExample();
-        BillExample.Criteria criteria = example.createCriteria();
-        criteria.andBillCodeEqualTo(billCode);
-        List<Bill> bills = billMapper.selectByExample(example);
-        if (bills.size() > 0)
-            return true;
-        return false;
+        return i;
     }
 }

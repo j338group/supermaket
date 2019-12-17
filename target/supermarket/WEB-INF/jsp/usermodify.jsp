@@ -7,7 +7,7 @@
             <span>用户管理页面 >> 用户修改页面</span>
         </div>
         <div class="providerAdd">
-        <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath }/jsp/user.do">
+        <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath }/jsp/user/user.do">
 			<input type="hidden" name="method" value="modifyexe">
 			<input type="hidden" name="uid" value="${user.id }"/>
 			 <div>
@@ -32,14 +32,15 @@
              </div>
 			 <div>
                     <label for="birthday">出生日期：</label>
+
                     <input type="text" Class="Wdate" id="birthday" name="birthday" value="<fmt:formatDate value="${user.birthday}" pattern="yyyy-MM-dd" />"
 					readonly="readonly" onclick="WdatePicker();">
                     <font color="red"></font>
               </div>
-			
+
 		       <div>
                     <label for="phone">用户电话：</label>
-                    <input type="text" name="phone" id="phone" value="${user.phone }"> 
+                    <input type="text" name="phone" id="phone" value="${user.phone }">
                     <font color="red"></font>
                </div>
                 <div>
@@ -50,7 +51,7 @@
                     <label >用户角色：</label>
                     <!-- 列出所有的角色分类 -->
 					<input type="hidden" value="${user.userRole }" id="rid" />
-					<select name="userRole" id="userRole"></select>
+					<select name="userRole" id="userRole" content="${user.userRole }"></select>
         			<font color="red"></font>
                 </div>
 			 <div class="providerAddBtn">

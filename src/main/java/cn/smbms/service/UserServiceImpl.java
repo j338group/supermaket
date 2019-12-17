@@ -15,57 +15,64 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * description:
- * Created by Ray on 2019-09-23
- */
 @Service
-public class UserServiceImpl implements UserService {
+                public class UserServiceImpl implements UserService {
     @Autowired
-//    @Qualifier("userMapper")
     private UserMapper userMapper;
     @Autowired
     private RoleMapper roleMapper;
-
-
     @Override
     public User login(String userCode, String password) {
-        UserExample example = new UserExample();
-        UserExample.Criteria criteria = example.createCriteria();
+        UserExample param=new UserExample();
+        UserExample.Criteria criteria = param.createCriteria();
         criteria.andUserCodeEqualTo(userCode);
         criteria.andUserPasswordEqualTo(password);
-        List<User> users = userMapper.selectByExample(example);
-        if (users.size() == 1) {
+        List<User> users = userMapper.selectByExample(param);
+        if (users.size()==1){
             return users.get(0);
         }
         return null;
     }
 
-    @Override
-    public List<UserVo> queryUserList(String queryName, Integer roleId, int currentPageNo, int pageSize) {
 
-        int startIndex = (currentPageNo - 1) * pageSize;
-        Map<String, Object> param = new HashMap<>();
-        param.put("startIndex", startIndex);
-        param.put("pageSize", pageSize);
-        param.put("queryName", queryName);
-        param.put("roleId", roleId);
+
+    @Override
+    public List<UserVo> queryUserList(String queryName,Integer roleId,int currentPageNo,int pageSize){
+        int startIndex=(currentPageNo-1)*pageSize;
+        Map<String,Object> param=new HashMap<>();
+        param.put("startIndex",startIndex);
+        param.put("pageSize",pageSize);
+        param.put("queryName",queryName);
+        param.put("roleId",roleId);
         return userMapper.queryUserList(param);
+
     }
 
     @Override
-    public UserVo findUserById(String userId) {
+    public UserVo findById(String userId) {
         User user = userMapper.selectByPrimaryKey(Long.parseLong(userId));
-        Role role = roleMapper.selectByPrimaryKey(user.getUserRole());
+        Role role = roleMapper.selectByPrimaryKey((long) user.getUserRole());
         UserVo userVo = new UserVo();
-        BeanUtils.copyProperties(user, userVo);
+        BeanUtils.copyProperties(user,userVo);
         userVo.setUserRoleName(role.getRoleName());
         return userVo;
     }
 
     @Override
-    public boolean delUserById(String userId) {
+    public String delUserById(String userId) {
         int i = userMapper.deleteByPrimaryKey(Long.parseLong(userId));
+        if (i>0){
+            return "true";
+        }
+        return "false";
+
+    }
+
+    @Override
+    public Boolean addUser(User user, Long id) {
+        user.setCreatedBy(id);
+        user.setCreationDate(new Date());
+        int i=userMapper.insert(user);
         if(i>0){
             return true;
         }
@@ -73,25 +80,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUser(User user, Long id) {
-        user.setCreatedBy(id);
-        user.setCreationDate(new Date());
-        int i = userMapper.insert(user);
-        if(i>0)
-            return true;
-        return false;
-    }
-
-    @Override
-    public boolean findUserByUserCode(String userCode) {
+    public Boolean findUserByUserCode(String userCode) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserCodeEqualTo(userCode);
         List<User> users = userMapper.selectByExample(example);
         if(users.size()>0)
+        {
             return true;
-        return false;
+        } else
+        {
+            return false;
+        }
     }
+
     @Override
     public void updateUser(User user, Long uid) {
         user.setId(uid);
@@ -104,12 +106,13 @@ public class UserServiceImpl implements UserService {
         int i = userMapper.updateByPrimaryKey(user);
         return i;
     }
+
+
     @Override
     public int queryUserCount() {
-
-        UserExample example = new UserExample();
+        UserExample example=new UserExample();
         long l = userMapper.countByExample(example);
-        int count = (int) l;
+        int count=(int)l;
         return count;
     }
 }

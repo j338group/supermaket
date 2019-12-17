@@ -28,9 +28,9 @@ public class Bill {
 
     private Date modifyDate;
 
-    private Long providerId;
+    private Integer providerId;
 
-    public Bill(Long id, String billCode, String productName, String productDesc, String productUnit, BigDecimal productCount, BigDecimal totalPrice, Integer isPayment, Long createdBy, Date creationDate, Long modifyBy, Date modifyDate, Long providerId) {
+    public Bill(Long id, String billCode, String productName, String productDesc, String productUnit, BigDecimal productCount, BigDecimal totalPrice, Integer isPayment, Long createdBy, Date creationDate, Long modifyBy, Date modifyDate, Integer providerId) {
         this.id = id;
         this.billCode = billCode;
         this.productName = productName;
@@ -146,11 +146,11 @@ public class Bill {
         this.modifyDate = modifyDate;
     }
 
-    public Long getProviderId() {
+    public Integer getProviderId() {
         return providerId;
     }
 
-    public void setProviderId(Long providerId) {
+    public void setProviderId(Integer providerId) {
         this.providerId = providerId;
     }
 }

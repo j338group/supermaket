@@ -2,11 +2,11 @@ package cn.smbms.dao;
 
 import cn.smbms.pojo.Bill;
 import cn.smbms.pojo.BillExample;
-import cn.smbms.vo.BillVo;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Map;
+
+import cn.smbms.vo.BillVo;
+import org.apache.ibatis.annotations.Param;
 
 public interface BillMapper {
     long countByExample(BillExample example);
@@ -31,7 +31,5 @@ public interface BillMapper {
 
     int updateByPrimaryKey(Bill record);
 
-    List<BillVo> queryBillList(Map<String, Object> param);
-
-    BillVo queryBillListBy(String id);
+    List<BillVo> selectBillList(Map<String, Object> param);
 }

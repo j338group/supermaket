@@ -1,13 +1,10 @@
 package cn.smbms.controller;
 
-
 import cn.smbms.pojo.Bill;
 import cn.smbms.pojo.Provider;
-
 import cn.smbms.service.BillService;
 import cn.smbms.service.ProviderService;
 import cn.smbms.vo.BillVo;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,87 +15,77 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/jsp/bill")
+@RequestMapping("/jsp")
 public class BillController {
     @Autowired
     private BillService billService;
     @Autowired
     private ProviderService providerService;
-
-    @RequestMapping("/billlist.html")
-    public String queryBillList(Model model,
-                                @RequestParam(value = "queryProductName", required = false) String queryProductName,
-                                @RequestParam(value = "queryProviderId", required = false) Integer queryProviderId,
-                                @RequestParam(value = "queryIsPayment",required = false)Integer queryIsPayment) {
-        List<BillVo> billVoList = billService.queryBillList(queryProductName, queryProviderId,queryIsPayment);
-        model.addAttribute("billVoList", billVoList);
-        model.addAttribute("queryProductName", queryProductName);
-        model.addAttribute("queryIsPayment",queryIsPayment);
-        model.addAttribute("queryProviderId",queryProviderId);
+    //查询订单管理 billlist.jsp
+    @RequestMapping("/bill.do")
+    public String queryBillList(@RequestParam(value = "queryProductName",required =false)String productName,
+                                @RequestParam(value = "queryProviderId",required = false) Integer providerId,
+                                @RequestParam(value = "queryIsPayment",required = false) Integer isPayment,
+                                Model model){
+        List<BillVo> billList=billService.queryBillList(productName,providerId,isPayment);
+        List<Provider> providerList=providerService.queryProvider1List();
+        model.addAttribute("billList",billList);
+        model.addAttribute("queryProductName",productName);
+        model.addAttribute("queryProviderId",providerId);
+        model.addAttribute("providerList",providerList);
         return "billlist";
     }
-
-    @RequestMapping("billview/{billId}")
-    public String queryBillInfo(@PathVariable("billId") String billId, Model model) {
-        BillVo billVo = billService.findBillById(billId);
-        model.addAttribute("bill", billVo);
+    //删除订单 billlist.js
+    @RequestMapping("/billdel/{billid}")
+    @ResponseBody
+    public String delBill(@PathVariable("billid")String id) throws JsonProcessingException {
+        String s=billService.deleteById(id);
+        Map<String,String> result=new HashMap<>();
+        result.put("delResult",s);
+        String s1 = new ObjectMapper().writeValueAsString(result);
+        return s1;
+    }
+    //查看订单billlist.js
+    @RequestMapping("/billview/{billid}")
+    public String queryBillInfo(@PathVariable("billid")String id,Model model){
+        BillVo billVo=billService.queryById(id);
+        model.addAttribute("bill",billVo);
         return "billview";
     }
-    @RequestMapping("/delbill/{billId}")
-    @ResponseBody
-    public String delBill(@PathVariable("billId") String billId){
-        Boolean b=billService.delBillById(billId);
-        Map<String, Object> result = new HashMap<>();
-        result.put("delResult",b.toString());
-        String resultJson=null;
-        try {
-            resultJson = new ObjectMapper().writeValueAsString(result);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return resultJson;
-    }
-    @RequestMapping("/billmodify/{billId}")
-    public String modifyUser(@PathVariable("billId") String billId,Model model){
-        BillVo billVo = billService.findBillById(billId);
-        model.addAttribute("bill",billVo );
+    //修改订单billlist.js
+    @RequestMapping("/billmodify/{billid}")
+    public String modifyBill(@PathVariable("billid")String id,Model model){
+        BillVo billVo=billService.queryById(id);
+        model.addAttribute("bill",billVo);
         return "billmodify";
     }
-    @RequestMapping("/providerlist")
+    //修改订单中的下拉菜单
+    @RequestMapping("/billlist")
     @ResponseBody
-    public List queryProviderList(){
-        List<Provider> providers = providerService.queryProviderList1();
-        return providers;
+    public List<Provider> queryProviderList(){
+        List<Provider> providerList = providerService.queryProvider1List();
+        return providerList;
     }
-    @RequestMapping("/add.html")
-    public String doAddBill(){
-        return "billadd";
-    }
-    @RequestMapping("/addbill")
-    public String addBill(Bill bill, HttpSession session){
-        System.out.println("--"+bill);
-       Bill loginuser = (Bill) session.getAttribute("billSession");
-        Boolean b=billService.addBill(bill,loginuser.getId());
-//TODO 跳转页面
+    //进入添加页面
+    @RequestMapping("/billadd.html")
+    public String modifyBill(Bill bill){
+        billService.updateBill(bill);
         return "billlist";
     }
-    @RequestMapping("/ucexist/{billCode}")
-    @ResponseBody
-    public Map<String,String> userCodeExist(@PathVariable("billCode") String billCode) {
-        Boolean have = billService.findBillByBillCode(billCode);
-
-        Map<String, String> map = new HashMap<>();
-        if (have) {
-            map.put("billCode", "exist");
-        } else {
-            map.put("billCode", "");
-        }
-        return map;
+    //添加订单
+    @RequestMapping("addbill.html")
+    public String addBill(){
+        return "billadd";
     }
+    @RequestMapping("/billadd.do")
+    public String addBill(Bill bill){
+        int i=billService.addBill(bill);
+        return "billlist";
+    }
+
 }

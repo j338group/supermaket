@@ -8,7 +8,7 @@
            <span>订单管理页面</span>
        </div>
        <div class="search">
-       <form method="get" action="${pageContext.request.contextPath }/jsp/bill/billlist.html">
+       <form method="get" action="${pageContext.request.contextPath }/jsp/bill.do">
 			<input name="method" value="query" class="input-text" type="hidden">
 			<span>商品名称：</span>
 			<input name="queryProductName" type="text" value="${queryProductName }">
@@ -32,7 +32,7 @@
        		</select>
 			
 			 <input	value="查 询" type="submit" id="searchbutton">
-			 <a href="${pageContext.request.contextPath }/jsp/bill/add.html">添加订单</a>
+			 <a href="${pageContext.request.contextPath }/jsp/addbill.html">添加订单</a>
 		</form>
        </div>
        <!--账单表格 样式和供应商公用-->
@@ -46,7 +46,7 @@
               <th width="10%">创建时间</th>
               <th width="30%">操作</th>
           </tr>
-          <c:forEach var="bill" items="${billVoList }" varStatus="status">
+          <c:forEach var="bill" items="${billList }" varStatus="status">
 				<tr>
 					<td>
 					<span>${bill.billCode }</span>
@@ -72,9 +72,9 @@
 					</span>
 					</td>
 					<td>
-					<span><a class="viewBill" href="javascript:;" billid=${bill.id } billCode=${bill.billCode }><img src="${pageContext.request.contextPath }/static/images/read.png" alt="查看" title="查看"/></a></span>
-					<span><a class="modifyBill" href="javascript:;" billid=${bill.id } billCode=${bill.billCode }><img src="${pageContext.request.contextPath }/static/images/xiugai.png" alt="修改" title="修改"/></a></span>
-					<span><a class="deleteBill" href="javascript:;" billid=${bill.id } billCode=${bill.billCode }><img src="${pageContext.request.contextPath }/static/images/schu.png" alt="删除" title="删除"/></a></span>
+					<span><a class="viewBill" href="javascript:;" billid=${bill.id } billcc=${bill.billCode }><img src="${pageContext.request.contextPath }/static/images/read.png" alt="查看" title="查看"/></a></span>
+					<span><a class="modifyBill" href="javascript:;" billid=${bill.id } billcc=${bill.billCode }><img src="${pageContext.request.contextPath }/static/images/xiugai.png" alt="修改" title="修改"/></a></span>
+					<span><a class="deleteBill" href="javascript:;" billid=${bill.id } billcc=${bill.billCode }><img src="${pageContext.request.contextPath }/static/images/schu.png" alt="删除" title="删除"/></a></span>
 					</td>
 				</tr>
 			</c:forEach>

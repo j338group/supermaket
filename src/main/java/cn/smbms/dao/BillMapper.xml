@@ -15,7 +15,7 @@
       <arg column="creationDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="modifyBy" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="modifyDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="providerId" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="providerId" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -120,7 +120,7 @@
       #{productDesc,jdbcType=VARCHAR}, #{productUnit,jdbcType=VARCHAR}, #{productCount,jdbcType=DECIMAL}, 
       #{totalPrice,jdbcType=DECIMAL}, #{isPayment,jdbcType=INTEGER}, #{createdBy,jdbcType=BIGINT}, 
       #{creationDate,jdbcType=TIMESTAMP}, #{modifyBy,jdbcType=BIGINT}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{providerId,jdbcType=BIGINT})
+      #{providerId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.smbms.pojo.Bill">
     insert into smbms_bill
@@ -203,7 +203,7 @@
         #{modifyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="providerId != null">
-        #{providerId,jdbcType=BIGINT},
+        #{providerId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -253,7 +253,7 @@
         modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.providerId != null">
-        providerId = #{record.providerId,jdbcType=BIGINT},
+        providerId = #{record.providerId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -274,7 +274,7 @@
       creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
       modifyBy = #{record.modifyBy,jdbcType=BIGINT},
       modifyDate = #{record.modifyDate,jdbcType=TIMESTAMP},
-      providerId = #{record.providerId,jdbcType=BIGINT}
+      providerId = #{record.providerId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -316,7 +316,7 @@
         modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="providerId != null">
-        providerId = #{providerId,jdbcType=BIGINT},
+        providerId = #{providerId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -334,54 +334,23 @@
       creationDate = #{creationDate,jdbcType=TIMESTAMP},
       modifyBy = #{modifyBy,jdbcType=BIGINT},
       modifyDate = #{modifyDate,jdbcType=TIMESTAMP},
-      providerId = #{providerId,jdbcType=BIGINT}
+      providerId = #{providerId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="queryBillList" resultType="cn.smbms.vo.BillVo">
-    SELECT
-    b.id,
-    b.billCode,
-    b.productName,
-    b.productUnit,
-    p.proName providerName,
-    b.productCount,
-    b.totalPrice,
-    b.isPayment,
-    b.creationDate
-    FROM
-    smbms_bill b
-    JOIN
-    smbms_provider p
-    ON
-    b.providerId=p.id
+  <select id="selectBillList" parameterType="Map" resultType="cn.smbms.vo.BillVo">
+    select b.id,b.billCode,b.productName,b.productDesc,b.productUnit,b.productCount,b.totalPrice,b.isPayment,b.createdBy,
+    b.creationDate,b.modifyBy,b.modifyDate,b.providerId,p.proName providerName
+    from smbms.smbms_bill b join smbms.smbms_provider p on b.providerId=p.id
     <where>
-      <if test="queryProductName!=null">
-        and b.productName like "%${queryProductName}%"
-      </if>
-      <if test="queryProviderId!=null">
-        and b.providerId=#{queryProviderId}
-      </if>
-      <if test="queryIsPayment!=null" >
-        and b.isPayment=#{queryIsPayment}
-      </if>
+        <if test="productName!=null and productName!=''">
+          and b.productName like "%${productName}%"
+        </if>
+        <if test="providerId!=null and providerId!=0">
+          and b.providerId=#{providerId}
+        </if>
+        <if test="isPayment!=null and isPayment!=0">
+          and b.isPayment=#{isPayment}
+        </if>
     </where>
-  </select>
-  <select id="queryBillListBy" resultType="cn.smbms.vo.BillVo">
-    SELECT
-    b.id,
-    b.billCode,
-    b.productName,
-    b.productUnit,
-    p.proName providerName,
-    b.productCount,
-    b.totalPrice,
-    b.isPayment
-    FROM
-    smbms_bill b
-    JOIN
-    smbms_provider p
-    ON
-    b.providerId=p.id
-   where b.id=#{id}
   </select>
 </mapper>

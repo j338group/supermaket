@@ -1,21 +1,19 @@
 package cn.smbms.service;
 
-
 import cn.smbms.pojo.Provider;
 
 import java.util.List;
 
 public interface ProviderService {
-    List<Provider> queryProviderList1();
+    List<Provider> queryProviderList(String proCode, String proName);
 
-    List<Provider> queryProvideList(String queryProCode, String queryProName);
+    Provider queryById(String proId);
 
-    Provider findProById(String proId);
+    int updateProvider(Provider provider);
 
-    boolean delProById(String proId);
+    String deleteProvider(String proId);
 
-    boolean addPro(Provider provider, Long id);
+    int addProvider(Provider provider);
 
-    boolean findProByProCode(String ProCode);
-
+    List<Provider> queryProvider1List();
 }

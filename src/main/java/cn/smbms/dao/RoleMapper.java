@@ -1,11 +1,9 @@
 package cn.smbms.dao;
 
-import cn.smbms.pojo.Provider;
 import cn.smbms.pojo.Role;
 import cn.smbms.pojo.RoleExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface RoleMapper {
     long countByExample(RoleExample example);
@@ -29,6 +27,4 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
-
-    List<Provider> queryProvideList();
 }

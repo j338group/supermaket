@@ -1,5 +1,7 @@
 package cn.smbms.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class User {
@@ -12,24 +14,24 @@ public class User {
     private String userPassword;
 
     private Integer gender;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     private String phone;
 
     private String address;
 
-    private Long userRole;
+    private Integer userRole;
 
     private Long createdBy;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationDate;
 
     private Long modifyBy;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date modifyDate;
 
-    public User(Long id, String userCode, String userName, String userPassword, Integer gender, Date birthday, String phone, String address, Long userRole, Long createdBy, Date creationDate, Long modifyBy, Date modifyDate) {
+    public User(Long id, String userCode, String userName, String userPassword, Integer gender, Date birthday, String phone, String address, Integer userRole, Long createdBy, Date creationDate, Long modifyBy, Date modifyDate) {
         this.id = id;
         this.userCode = userCode;
         this.userName = userName;
@@ -113,11 +115,11 @@ public class User {
         this.address = address == null ? null : address.trim();
     }
 
-    public Long getUserRole() {
+    public Integer getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(Long userRole) {
+    public void setUserRole(Integer userRole) {
         this.userRole = userRole;
     }
 
@@ -151,5 +153,24 @@ public class User {
 
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userCode='" + userCode + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", gender=" + gender +
+                ", birthday=" + birthday +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", userRole=" + userRole +
+                ", createdBy=" + createdBy +
+                ", creationDate=" + creationDate +
+                ", modifyBy=" + modifyBy +
+                ", modifyDate=" + modifyDate +
+                '}';
     }
 }

@@ -12,83 +12,75 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/jsp/provider")
+@RequestMapping("/jsp")
 public class ProviderController {
     @Autowired
     private ProviderService providerService;
+    //按条件查询providerlist.jsp
+    @RequestMapping("/provider.do")
+    public String queryProviderList(Model model,
+                                    @RequestParam(value = "queryProCode",required = false) String proCode,
+                                    @RequestParam(value = "queryProName",required = false) String proName){
+        List<Provider> providerList=providerService.queryProviderList(proCode,proName);
+        model.addAttribute("queryProCode",proCode);
+        model.addAttribute("queryProName",proName);
+        model.addAttribute("providerList",providerList);
 
-    @RequestMapping("/providerlist.html")
-    public String queryProvideList(Model model,
-                                   @RequestParam(value = "queryProCode", required = false) String queryProCode,
-                                   @RequestParam(value = "queryProName", required = false) String queryProName) {
-
-        List<Provider> providerList = providerService.queryProvideList(queryProCode, queryProName);
-        model.addAttribute("providerList", providerList);
-        model.addAttribute("queryProCode", queryProCode);
-        model.addAttribute("queryProName", queryProName);
         return "providerlist";
     }
-
-    @RequestMapping("providerview/{proId}")
-    public String queryUserInfo(@PathVariable("proId") String proId, Model model) {
-        Provider provider = providerService.findProById(proId);
-        model.addAttribute("provider", provider);
+    //查看供应商信息 providerlist.js
+    @RequestMapping("/proview/{proId}")
+    public String queryProviderInfo(@PathVariable("proId") String proId,Model model){
+        Provider provider=providerService.queryById(proId);
+        System.out.println(provider+"-----------------------------");
+        model.addAttribute("provider",provider);
         return "providerview";
     }
-
-    @RequestMapping("/delprovider/{proId}")
-    @ResponseBody
-    public String delUser(@PathVariable("proId") String proId) {
-        Boolean b = providerService.delProById(proId);
-        Map<String, Object> result = new HashMap<>();
-        result.put("delResult", b.toString());
-        String resultJson = null;
-        try {
-            resultJson = new ObjectMapper().writeValueAsString(result);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return resultJson;
-    }
-
-    @RequestMapping("/providermodify/{proId}")
-    public String modifyUser(@PathVariable("proId") String proId, Model model) {
-        Provider provider = providerService.findProById(proId);
-        model.addAttribute("provider", provider);
+    //进入修改供应商信息 providerlist.js
+    @RequestMapping("/promodify/{proId}")
+    public String modifyProvider(@PathVariable("proId") String proId,Model model){
+        Provider provider=providerService.queryById(proId);
+        model.addAttribute("provider",provider);
         return "providermodify";
     }
+    //提交修改信息providerlist.jsp
+    @RequestMapping("/provider/provider.do")
+    public String updateProvider(Provider provider){
+        int i=providerService.updateProvider(provider);
+        return "providerlist";
+    }
+    //删除信息provider.js
+    @RequestMapping("/delprovider/{proId}")
+    @ResponseBody
+    public String deleteProvider(@PathVariable("proId")String proId) throws JsonProcessingException {
+        System.out.println(proId);
+        String s=providerService.deleteProvider(proId);
+        Map<String,String> map=new HashMap<>();
+        map.put("delResult",s);
 
-    @RequestMapping("/add.html")
-    public String doAddUser() {
+
+        String s2 = new ObjectMapper().writeValueAsString(map);
+
+
+        return s2;
+    }
+    //进入添加供应商也面providerlist.jsp
+    @RequestMapping("/addpro.html")
+    public String addProvider(){
+
         return "provideradd";
     }
-
+    //添加供应商provideradd.jsp
     @RequestMapping("/addprovider")
-    public String addUser(Provider provider, HttpSession session) {
-        System.out.println("--" + provider);
-        Provider loginuser = (Provider) session.getAttribute("providerSession");
-        Boolean b = providerService.addPro(provider, loginuser.getId());
-//TODO 跳转页面
+    public String addProvider(Provider provider){
+        int i=providerService.addProvider(provider);
+
         return "providerlist";
     }
 
-    @RequestMapping("/ucexist/{proCode}")
-    @ResponseBody
-    public Map<String, String> providerCodeExist(@PathVariable("proCode") String proCode) {
-        Boolean have = providerService.findProByProCode(proCode);
-
-        Map<String, String> map = new HashMap<>();
-        if (have) {
-            map.put("proCode", "exist");
-        } else {
-            map.put("proCode", "");
-        }
-        return map;
-    }
 }

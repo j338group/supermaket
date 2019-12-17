@@ -1,4 +1,4 @@
-var userObj;
+	var userObj;
 
 //用户管理页面上点击删除按钮弹出删除框(userlist.jsp)
 function deleteUser(obj){
@@ -53,7 +53,7 @@ $(function(){
 		var obj = $(this);
 		window.location.href=path+"/jsp/user/userview/"+ obj.attr("userid");
 	});
-
+	
 	$(".modifyUser").on("click",function(){
 		var obj = $(this);
 		window.location.href=path+"/jsp/user/usermodify/"+ obj.attr("userid");
@@ -62,7 +62,7 @@ $(function(){
 	$('#no').click(function () {
 		cancleBtn();
 	});
-
+	
 	$('#yes').click(function () {
 		deleteUser(userObj);
 	});
@@ -72,7 +72,7 @@ $(function(){
 		changeDLGContent("你确定要删除用户【"+userObj.attr("username")+"】吗？");
 		openYesOrNoDLG();
 	});
-
+	
 	/*$(".deleteUser").on("click",function(){
 		var obj = $(this);
 		if(confirm("你确定要删除用户【"+obj.attr("username")+"】吗？")){

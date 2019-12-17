@@ -2,9 +2,8 @@ package cn.smbms.dao;
 
 import cn.smbms.pojo.Address;
 import cn.smbms.pojo.AddressExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface AddressMapper {
     long countByExample(AddressExample example);

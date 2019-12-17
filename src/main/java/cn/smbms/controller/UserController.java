@@ -1,6 +1,5 @@
 package cn.smbms.controller;
 
-
 import cn.smbms.pojo.Role;
 import cn.smbms.pojo.User;
 import cn.smbms.service.RoleService;
@@ -11,20 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * description:
- * Created by Ray on 2019-09-24
- */
 @Controller
 @RequestMapping("/jsp/user")
 public class UserController {
@@ -33,100 +25,112 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+    //分页查询用户管理 userlist.jsp里寻找
     @RequestMapping("/userlist.html")
     public String queryUserList(Model model,
-                                @RequestParam(value = "pageIndex", required = false) Integer pageIndex,
-                                @RequestParam(value = "queryname", required = false) String queryname,
-                                @RequestParam(value = "queryUserRole", required = false) Integer roleId) {
-        //处理分页数据
-        int totalCount = userService.queryUserCount();
-        int pageSize = 5;
-        int totalPageCount = totalCount % 5 == 0 ? totalCount / 5 : totalCount / 5 + 1;
-        int currentPageNo = 1;
-        if (pageIndex != null) {
-            currentPageNo = pageIndex;
-        }
-        //调用业务层功能查询用户列表
-        List<UserVo> userList = userService.queryUserList(queryname, roleId, currentPageNo, pageSize);
-        //查询角色列表
-        List<Role> roleList = roleService.queryRoleList();
+                                @RequestParam(value = "pageIndex",required = false)Integer pageIndex,
+                                @RequestParam(value = "queryname",required = false) String queryname,
+                                @RequestParam(value = "queryUserRole",required = false) Integer roleId){
 
-        //封装返回给前端的数据
-        model.addAttribute("userList", userList);
-        model.addAttribute("totalPageCount", totalPageCount);
-        model.addAttribute("totalCount", totalCount);
-        model.addAttribute("currentPageNo", currentPageNo);
-        model.addAttribute("roleList", roleList);
-        model.addAttribute("queryUserName", queryname);
-        model.addAttribute("queryUserRole", roleId);
+        int totalCount=userService.queryUserCount();
+        int pageSize=5;
+        int totalPageCount=totalCount%5==0?totalCount/5:totalCount/5+1;
+        int currentPageNo=1;
+        if (pageIndex!=null){
+            currentPageNo=pageIndex;
+        }
+        String queryUserName=queryname;
+
+
+        List<UserVo> userList=userService.queryUserList(queryname,roleId,currentPageNo,pageSize);
+        List<Role> roleList=roleService.queryRoleList();
+        model.addAttribute("userList",userList);
+        model.addAttribute("totalCount",totalCount);
+        model.addAttribute("currentPageNo",currentPageNo);
+        model.addAttribute("totalPageCount",totalPageCount);
+        model.addAttribute("roleList",roleList);
+        model.addAttribute("queryUserName",queryUserName);
+        model.addAttribute("queryUserRole",roleId);
+
 
         return "userlist";
-    }
 
-    @RequestMapping("userview/{userId}")
-    public String queryUserInfo(@PathVariable("userId") String userId, Model model) {
-        UserVo userVo = userService.findUserById(userId);
-        model.addAttribute("user", userVo);
+    }
+    //查看用户信息映射路径在userlist.js里找
+    @RequestMapping("/userview/{userId}")
+    public String queryUserInfo(@PathVariable("userId") String userId,Model model){
+        UserVo userVo=userService.findById(userId);
+
+        model.addAttribute("user",userVo);
         return "userview";
     }
+    //删除用户在userlist.js里找
     @RequestMapping("/deluser/{userId}")
     @ResponseBody
     public String delUser(@PathVariable("userId") String userId){
-        Boolean b=userService.delUserById(userId);
-        Map<String, Object> result = new HashMap<>();
-        result.put("delResult",b.toString());
-        String resultJson=null;
+        String s=userService.delUserById(userId);
+        Map<String,String> result=new HashMap<>();
+        result.put("delResult",s);
+
+        String s1 = null;
         try {
-            resultJson = new ObjectMapper().writeValueAsString(result);
+            s1= new ObjectMapper().writeValueAsString(result);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return resultJson;
+        return s1;
     }
+    //修改用户信息映射路径在userlist.js里去找
     @RequestMapping("/usermodify/{userId}")
     public String modifyUser(@PathVariable("userId") String userId,Model model){
-        UserVo userVo = userService.findUserById(userId);
-        model.addAttribute("user",userVo );
+        UserVo userVo = userService.findById(userId);
+        model.addAttribute("user",userVo);
         return "usermodify";
     }
+    //添加用户里的用户角色的选择映射路径在useradd.js里
     @RequestMapping("/rolelist")
     @ResponseBody
-    public List queryRoleList(){
-        List<Role> roles = roleService.queryRoleList();
+    public List<Role> queryRoleList(){
+        List<Role> roles=roleService.queryRoleList();
         return roles;
     }
+    //进入添加页面路径在userlist.jsp
     @RequestMapping("/add.html")
-    public String doAddUser(){
+    public String addUser(){
+
         return "useradd";
     }
+    //添加用户 useradd.jsp
     @RequestMapping("/adduser")
     public String addUser(User user, HttpSession session){
-        System.out.println("--"+user);
-        User loginuser = (User) session.getAttribute("userSession");
-        Boolean b=userService.addUser(user,loginuser.getId());
-//TODO 跳转页面
+        System.out.println(user);
+         User loginUser= (User)session.getAttribute("userSession");
+        Boolean b = userService.addUser(user, loginUser.getId());
         return "useradd";
     }
+    //添加用户时验证用户账号存不存在 useradd.js
     @RequestMapping("/ucexist/{userCode}")
     @ResponseBody
-    public Map<String,String> userCodeExist(@PathVariable("userCode") String userCode) {
+    public Map<String,String> userCodeExist(@PathVariable("userCode") String userCode){
         Boolean have = userService.findUserByUserCode(userCode);
 
         Map<String, String> map = new HashMap<>();
-        if (have) {
-            map.put("userCode", "exist");
-        } else {
-            map.put("userCode", "");
+        if(have) {
+            map.put("userCode","exist");
+        }else {
+            map.put("userCode","");
         }
         return map;
     }
-
-
+    //head.jsp进入密码修改页面
     @RequestMapping("/pwdmodify.html")
     public String updateUser(){
         return "pwdmodify";
     }
 
+
+
+    //
     @RequestMapping("/user.do")
     public String updateUser(User user,Long uid){
         System.out.println(user+"-----------------------");
@@ -141,11 +145,11 @@ public class UserController {
         Map<String,String> result=new HashMap<>();
         result.put("result",s);
 
-        String s1 = new ObjectMapper().writeValueAsString(result);
+            String s1 = new ObjectMapper().writeValueAsString(result);
 
         return s1;
     }
-    //验证旧密码对不对pwdmodify.js
+//验证旧密码对不对pwdmodify.js
     @RequestMapping("/pwd/{oldpassword}")
     @ResponseBody
     public String oldpwd(@PathVariable(value = "oldpassword",required = false)String oldpassword,HttpSession session){
@@ -181,4 +185,5 @@ public class UserController {
 
         return "forward:/login.jsp";
     }
+
 }

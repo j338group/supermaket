@@ -1,22 +1,19 @@
 package cn.smbms.service;
 
 import cn.smbms.pojo.Bill;
-import cn.smbms.pojo.User;
 import cn.smbms.vo.BillVo;
-import cn.smbms.vo.UserVo;
 
 import java.util.List;
 
 public interface BillService {
-    List<BillVo> queryBillList(String queryProductName, Integer queryProviderId, Integer queryIsPayment);
 
-    //    List<BillVo> queryBillList();
-    BillVo findBillById(String userId);
+    List<BillVo> queryBillList(String productName, Integer providerId, Integer isPayment);
 
-    boolean delBillById(String billId);
+    String deleteById(String id);
 
-    boolean addBill(Bill bill, Long billId);
+    BillVo queryById(String id);
 
-    boolean findBillByBillCode(String billCode);
+    void updateBill(Bill bill);
 
+    int addBill(Bill bill);
 }

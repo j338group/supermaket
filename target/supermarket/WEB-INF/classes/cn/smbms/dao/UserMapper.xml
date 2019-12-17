@@ -11,7 +11,7 @@
       <arg column="birthday" javaType="java.util.Date" jdbcType="DATE" />
       <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="address" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="userRole" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="userRole" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="createdBy" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="creationDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="modifyBy" javaType="java.lang.Long" jdbcType="BIGINT" />
@@ -118,7 +118,7 @@
       modifyDate)
     values (#{id,jdbcType=BIGINT}, #{userCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{userPassword,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, 
-      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userRole,jdbcType=BIGINT}, 
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userRole,jdbcType=INTEGER}, 
       #{createdBy,jdbcType=BIGINT}, #{creationDate,jdbcType=TIMESTAMP}, #{modifyBy,jdbcType=BIGINT}, 
       #{modifyDate,jdbcType=TIMESTAMP})
   </insert>
@@ -191,7 +191,7 @@
         #{address,jdbcType=VARCHAR},
       </if>
       <if test="userRole != null">
-        #{userRole,jdbcType=BIGINT},
+        #{userRole,jdbcType=INTEGER},
       </if>
       <if test="createdBy != null">
         #{createdBy,jdbcType=BIGINT},
@@ -241,7 +241,7 @@
         address = #{record.address,jdbcType=VARCHAR},
       </if>
       <if test="record.userRole != null">
-        userRole = #{record.userRole,jdbcType=BIGINT},
+        userRole = #{record.userRole,jdbcType=INTEGER},
       </if>
       <if test="record.createdBy != null">
         createdBy = #{record.createdBy,jdbcType=BIGINT},
@@ -270,7 +270,7 @@
       birthday = #{record.birthday,jdbcType=DATE},
       phone = #{record.phone,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
-      userRole = #{record.userRole,jdbcType=BIGINT},
+      userRole = #{record.userRole,jdbcType=INTEGER},
       createdBy = #{record.createdBy,jdbcType=BIGINT},
       creationDate = #{record.creationDate,jdbcType=TIMESTAMP},
       modifyBy = #{record.modifyBy,jdbcType=BIGINT},
@@ -304,7 +304,7 @@
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="userRole != null">
-        userRole = #{userRole,jdbcType=BIGINT},
+        userRole = #{userRole,jdbcType=INTEGER},
       </if>
       <if test="createdBy != null">
         createdBy = #{createdBy,jdbcType=BIGINT},
@@ -330,37 +330,33 @@
       birthday = #{birthday,jdbcType=DATE},
       phone = #{phone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      userRole = #{userRole,jdbcType=BIGINT},
+      userRole = #{userRole,jdbcType=INTEGER},
       createdBy = #{createdBy,jdbcType=BIGINT},
       creationDate = #{creationDate,jdbcType=TIMESTAMP},
       modifyBy = #{modifyBy,jdbcType=BIGINT},
       modifyDate = #{modifyDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="queryUserList" parameterType="Map" resultType="cn.smbms.vo.UserVo">
+        select
+        u.id,
+        u.userCode,
+        u.userName,
+        u.birthday,
+        u.gender,
+        u.phone,
+        r.roleName userRoleName
+        from smbms_user u join smbms_role r
+        on u.userRole=r.id
+        <where>
+          <if test="queryName!=null and queryName!=''">
+            u.userName like "%${queryName}%"
+          </if>
 
-  <select id="queryUserList" resultType="cn.smbms.vo.UserVo" >
-      SELECT
-      u.`id`,
-      u.`userCode`,
-      u.`userName`,
-      u.`birthday`,
-      u.`gender`,u.`phone`,
-      r.`roleName` userRoleName
-      FROM
-        smbms_user u
-      JOIN
-       smbms_role r
-      ON
-       u.`userRole`=r.`id`
-    <where>
-      <if test="queryName!=null">
-        and  u.userName like "%${queryName}%"
-      </if>
-      <if test="roleId!=null and roleId>0">
-        and u.userRole=#{roleId}
-      </if>
-    </where>
-
-    limit  #{startIndex},#{pageSize}
+          <if test="roleId!=null and roleId!=0"  >
+            and u.userRole =#{roleId}
+          </if>
+        </where>
+        limit #{startIndex},#{pageSize}
   </select>
 </mapper>
