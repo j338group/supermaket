@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 一个总的接口，我们在下面每写的任何一个方法都要在此映射中出现 -->
+<mapper namespace="org.forten.mybatis.dao.MybatisDao">
+
+    <select id="selectOneGame" resultType="org.forten.mybatis.dto.Games">
+        select gameName,gameMoney,gameDiscound,gameMessage
+        from games
+        where gamesid=#{gamesid}
+    </select>
+</mapper>
